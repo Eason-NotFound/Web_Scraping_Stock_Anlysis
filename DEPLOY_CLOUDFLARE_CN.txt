@@ -64,8 +64,10 @@ Tunnel 由本地主动向外连接，不需要路由器开放入站端口。
 
 四、设置 Pages 运行时配置
 在 Pages 项目 Settings → Variables and Secrets 中配置 Production 环境：
-  NEWSLENS_API_BASE  = 第三步的 HTTPS Tunnel 根地址（无 /api 路径）
+  NEWSLENS_API_BASE  = 第三步的 HTTPS Tunnel 根地址（无 /api 路径），类型选 Secret/Encrypt
   NEWSLENS_API_TOKEN = .env.api 中 NEWSLENS_API_TOKEN 的值，类型选 Secret/Encrypt
+
+两项都必须选择 Secret/Encrypt。Wrangler 会以 wrangler.toml 为准同步普通变量；仅在控制台设置为普通文本的连接地址会在下次部署时被清除。加密 Secrets 会保留。
 
 NEWSLENS_API_BASE 必须是纯 origin，例如 https://api.example.com；不能带用户信息、查询串、片段或路径。
 线上不使用 http://127.0.0.1:8000，它是 Cloudflare 机器自身的地址；该值仅用于本地 wrangler 预览。

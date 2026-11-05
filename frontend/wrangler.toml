@@ -2,5 +2,6 @@ name = "newslens-gp"
 pages_build_output_dir = "./dist"
 compatibility_date = "2026-11-05"
 
-# NEWSLENS_API_BASE and NEWSLENS_API_TOKEN are set through Pages Variables/Secrets.
+# Set BOTH NEWSLENS_API_BASE and NEWSLENS_API_TOKEN as encrypted Pages Secrets.
+# Wrangler reconciles plain vars from this file; dashboard-only plain vars are removed.
 # Local development uses frontend/.dev.vars (never commit that file).

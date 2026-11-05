@@ -55,7 +55,7 @@ Set these GitHub repository variables:
 - `CLOUDFLARE_ACCOUNT_ID`
 - `CLOUDFLARE_PROJECT_NAME`
 
-Set the repository secret `CLOUDFLARE_API_TOKEN` with Cloudflare Pages Edit permission for the target account. Configure Pages runtime `NEWSLENS_API_BASE` (the HTTPS Tunnel origin) and encrypted `NEWSLENS_API_TOKEN` separately.
+Set the repository secret `CLOUDFLARE_API_TOKEN` with Cloudflare Pages Edit permission for the target account. Configure both Pages runtime `NEWSLENS_API_BASE` (the HTTPS Tunnel origin) and `NEWSLENS_API_TOKEN` as encrypted Secrets separately. Wrangler preserves these secrets across deployments; dashboard-only plain-text variables are removed when this configuration file is deployed.
 
 Without those settings the workflow explicitly skips deployment; a passing test run does not mean the site is online. Do not enable a second native Git auto-deployment for the same Direct Upload project.
 
