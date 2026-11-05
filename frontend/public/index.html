@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2257d5">
+  <meta name="description" content="NewsLens: traceable market observations, original news evidence, and a read-only view of saved monitoring results.">
+  <title>NewsLens · Market intelligence</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%232257d5'/%3E%3Cpath d='M10 29V11l20 18V11' fill='none' stroke='white' stroke-width='3.5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace" data-i18n="skip">Skip to dashboard</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="NewsLens home"><span class="brand-mark" aria-hidden="true">N<span>↗</span></span><span>NewsLens<span class="brand-note" data-i18n="brandNote">MARKET INTELLIGENCE</span></span></a>
+      <div class="header-actions"><span class="read-only"><span aria-hidden="true">◉</span> <span data-i18n="readOnly">Public · read only</span></span><label class="sr-only" for="language">Language / 语言</label><select id="language" aria-label="Language / 语言"><option value="en">English</option><option value="zh">中文</option></select></div>
+    </div>
+  </header>
+  <main class="shell">
+    <section class="intro" aria-labelledby="page-title"><div><p class="eyebrow" data-i18n="eyebrow">OBSERVE. UNDERSTAND. VERIFY.</p><h1 id="page-title" data-i18n="title">A clearer view of the market.</h1><p class="intro-copy" data-i18n="intro">Follow prices, read the evidence, and see what the monitor has recorded.</p></div><div class="refresh-block"><button id="refresh" class="button secondary"><span class="refresh-icon" aria-hidden="true">↻</span><span data-i18n="refresh">Refresh data</span></button><span class="quiet small" data-i18n="autoRefresh">Updates every 30 seconds</span></div></section>
+    <section id="connection" class="connection loading" aria-live="polite" aria-atomic="true"><span class="status-dot" aria-hidden="true"></span><div><strong id="connection-title">Connecting to saved results</strong><p id="connection-detail">Checking availability…</p></div><span id="connection-time" class="connection-time"></span></section>
+    <section id="metrics" class="metrics" aria-label="Monitoring summary"></section>
+    <div class="workspace-header"><nav class="tabs" role="tablist" aria-label="Workspace"><button id="tab-market" role="tab" aria-controls="panel-market" aria-selected="true" data-tab="market" data-i18n="market">Market</button><button id="tab-news" role="tab" aria-controls="panel-news" aria-selected="false" tabindex="-1" data-tab="news" data-i18n="news">News intelligence</button><button id="tab-alerts" role="tab" aria-controls="panel-alerts" aria-selected="false" tabindex="-1" data-tab="alerts" data-i18n="alerts">Recorded alerts</button></nav><span class="utc-label">UTC <span aria-hidden="true">·</span> USD</span></div>
+    <div id="workspace" tabindex="-1">
+      <section id="panel-market" role="tabpanel" aria-labelledby="tab-market"><div id="market-content"></div></section>
+      <section id="panel-news" role="tabpanel" aria-labelledby="tab-news" hidden>
+        <div class="filters"><div class="filter"><label for="news-symbol" data-i18n="stock">Stock</label><select id="news-symbol"></select></div><div class="filter"><label for="news-category" data-i18n="category">Category</label><select id="news-category"></select></div><div class="filter"><label for="news-sentiment" data-i18n="sentiment">Sentiment</label><select id="news-sentiment"></select></div><div class="filter-note" data-i18n="originalNote">Original article text and quoted evidence are kept in their source language.</div></div>
+        <div id="news-content"></div><div id="news-pagination" class="pagination"></div>
+      </section>
+      <section id="panel-alerts" role="tabpanel" aria-labelledby="tab-alerts" hidden><div id="alerts-content"></div><div id="alerts-pagination" class="pagination"></div></section>
+    </div>
+    <section class="method-note"><span class="note-icon" aria-hidden="true">i</span><div><strong data-i18n="noteTitle">Evidence before interpretation</strong><p data-i18n="noteCopy">Source timestamps determine freshness. Model interpretations require human review. Saved alerts describe observed events; they do not establish prediction accuracy or investment returns.</p></div></section>
+    <footer><span>NewsLens <span class="footer-divider">/</span> ECON3086</span><span data-i18n="footer">One market. Clear sources. Traceable observations.</span></footer>
+  </main>
+  <noscript><p class="noscript">JavaScript is required to load saved monitoring data. / 请启用 JavaScript 以读取已保存的监控数据。</p></noscript>
+</body>
+</html>

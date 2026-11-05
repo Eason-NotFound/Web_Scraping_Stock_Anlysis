@@ -1,0 +1,38 @@
+NewsLens 本地实时监控
+
+你现在看到的苹果新闻是已保存的分析。前端只读取数据库；必须另开一个后台采集进程，才会持续抓取和分析。
+
+1. 前端已经打开时，不用重复启动。新开一个 macOS 终端窗口，运行：
+   cd /Users/quyichen/Desktop/y4s1/Econ3086/GP
+   ./Start_Monitor.command
+   也可以在 Finder 中双击 Start_Monitor.command。
+
+2. 保持该终端打开。日志会显示：抓取历史日线 → 抓取行情 → 抓取新闻 → 正在分析 → 分析已保存 → 等待下一轮。
+   错误也会显示；出现错误不代表成功抓取。密钥不会显示在日志中。
+
+3. 前端选择 Live monitoring，然后打开 News Intelligence。
+   页面每 30 秒读取新结果；顶部显示后台是否有响应、上次行情/新闻抓取以及分析队列数量。
+   Alerts & Validation → Recent runtime log 可看最近运行日志（数据库时间为 UTC）。
+   后台终端日志按电脑本地时区显示。
+
+4. 停止：在后台终端按 Ctrl+C，等待显示“后台已停止”。已保存的数据会保留。
+   下次再次运行同一命令即可继续。重复启动会拒绝第二个进程，避免重复调用。
+
+如果需要重新打开前端，在另一个终端运行：
+   cd /Users/quyichen/Desktop/y4s1/Econ3086/GP
+   ./Start_Dashboard.command
+不要在已有前端服务运行时反复启动多个前端。
+
+当前配置：10 只股票；行情目标间隔 60 秒、新闻目标间隔 180 秒、历史日线每小时。
+这是轮询监控，实际间隔也受接口响应时间影响。每轮最多处理 2 篇新闻，待分析队列会逐步消化。
+接口没有新新闻时不会凭空增加新闻；重复内容去重。摘要不足会标记 insufficient，不会编造分析。
+休市时新闻仍可更新，但行情可能不变或标记过期；系统不会据此触发价格警报。
+运行时会使用你已配置的 Alpaca 和学校 API 额度。当前 Telegram 关闭，系统不会下交易订单。
+
+仅检查配置、不访问接口：
+   ./Start_Monitor.command --check
+仅运行一轮后退出：
+   ./Start_Monitor.command --once
+
+启动器从本目录 .env 读取配置并选择 live 模式，数据统一保存在 data/live.sqlite。
+原 .env 的 demo 默认值、原数据、M0–M4 冻结记录均保留。代码修改前的备份位于 _integration_backups/monitor_console_*。

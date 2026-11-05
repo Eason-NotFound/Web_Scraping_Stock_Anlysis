@@ -1,0 +1,24 @@
+# One host, one persistent local volume, two independent processes.
+# Fill .env from .env.example before use. Never use a network filesystem for SQLite.
+services:
+  web:
+    build: .
+    env_file: .env
+    environment:
+      NEWSLENS_MODE: live
+      NEWSLENS_DB: /app/data/live.sqlite
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+  monitor:
+    build: .
+    command: ["python", "-m", "newslens.worker"]
+    env_file: .env
+    environment:
+      NEWSLENS_MODE: live
+      NEWSLENS_DB: /app/data/live.sqlite
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

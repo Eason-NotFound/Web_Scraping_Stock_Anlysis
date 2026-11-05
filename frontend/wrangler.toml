@@ -1,0 +1,6 @@
+name = "newslens-gp"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-11-05"
+
+# NEWSLENS_API_BASE and NEWSLENS_API_TOKEN are set through Pages Variables/Secrets.
+# Local development uses frontend/.dev.vars (never commit that file).

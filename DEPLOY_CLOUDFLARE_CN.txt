@@ -1,0 +1,113 @@
+NewsLens：Cloudflare 前端 + 本地实时后台 + GitHub 自动发布
+
+当前交付与上线状态
+代码、测试和自动部署流程已准备。没有 Cloudflare 账户及配置时，GitHub 的 Deploy Cloudflare Pages 工作流会明确报告“Deployment skipped”，不会声称已上线。
+默认页面使用英文，可切换中文。新闻原文、AI 解释及证据保留原语言。
+现有 Streamlit 仍可在本地使用；Cloudflare 页面使用独立静态前端，不需要让浏览器执行 Python。
+
+运行结构
+浏览器 → Cloudflare Pages 页面 → 同源 /api/* 服务端代理 → HTTPS Tunnel → Mac 本地 API → data/live.sqlite
+本地 NewsLens worker 继续负责抓取和分析；API 只读取已有实时数据。
+网页约每 30 秒读取 API。新增新闻和分析会自动出现在页面，不需要 git push。
+GitHub Actions 负责发布前端代码变化，不会替你更新 Mac 上的后台代码。
+电脑休眠、断网或关闭 API/Tunnel 后，云端页面仍存在，但实时数据无法更新。页面会显示连接失败及数据时间。
+
+一、先在本地确认接口和网页
+在 GP 目录执行一次：
+  cd /Users/quyichen/Desktop/y4s1/Econ3086/GP
+  .venv/bin/python -m pip install -r requirements-api.txt
+  .venv/bin/python run_api.py --init
+
+--init 只在需要时生成本地 API 令牌，写入 .env.api；同时准备 frontend/.dev.vars 供本地代理使用。
+这些文件是本地私密配置，不上传 GitHub。该 API 令牌不同于 Alpaca、学校 API 或 Cloudflare 发布令牌。
+
+终端 1：需要持续抓取时启动后台（若已运行，不要重复启动）：
+  cd /Users/quyichen/Desktop/y4s1/Econ3086/GP
+  ./Start_Monitor.command
+
+终端 2：启动只读 API：
+  cd /Users/quyichen/Desktop/y4s1/Econ3086/GP
+  ./Start_API.command
+
+终端 3：启动新网页的本地预览：
+  cd /Users/quyichen/Desktop/y4s1/Econ3086/GP/frontend
+  npm ci
+  npm run build
+  npx wrangler pages dev dist --ip 127.0.0.1 --port 8788
+
+浏览器打开 http://127.0.0.1:8788 。本地 API 监听 http://127.0.0.1:8000 ，没有 Bearer 令牌的直接 API 请求会被拒绝，这是预期行为。
+本地预览应通过同源 /api/* 调用，由服务端代理自动附加令牌；不要把令牌粘贴到浏览器 JavaScript。
+停止某个服务时，在对应终端按 Control+C。
+
+二、创建 Cloudflare 账户及 Pages 项目
+1. 由你自己在 https://dash.cloudflare.com 注册/登录并完成邮箱验证等账户步骤。
+2. 创建 Direct Upload 类型的 Pages 项目，项目名建议 newslens-gp。可以在已有前端依赖的终端运行：
+     cd /Users/quyichen/Desktop/y4s1/Econ3086/GP/frontend
+     npx wrangler login
+     npx wrangler pages project create newslens-gp --production-branch main
+   wrangler login 会打开 Cloudflare 授权页面，由你完成登录授权。project create 会在你选择的 Cloudflare 账户中创建项目。
+   不要同时开启 Pages 原生 Git 自动部署；这个项目使用 GitHub Actions 作为唯一自动发布入口。
+3. 首次成功部署后，Pages 提供 <项目名>.pages.dev 地址，不必先购买自定义域名。
+4. 项目类型选好后，不要假设可随意切换 Direct Upload 与 Git integration；Cloudflare 对两种方式的切换有限制。
+   发布应使用本项目的 Wrangler 工作流，不用 Dashboard 拖拽 dist 代替，因为服务端 /functions 也需要正确打包。
+
+三、让 Cloudflare 访问本地 API
+首次试用可以使用临时 Quick Tunnel，不需要域名，但地址会随重启变化。
+先按 Cloudflare 官方说明安装 cloudflared：https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/
+保持 Start_API.command 的终端运行，然后另开终端：
+  cloudflared tunnel --url http://127.0.0.1:8000
+
+记下输出的 https://<随机名称>.trycloudflare.com 地址。只复制地址，不复制终端中的其他配置。
+这个临时入口仍由本地 API 的 Bearer 令牌保护。它不能用于承诺全天可用；停止 cloudflared 后地址失效。
+后续若要稳定地址：准备接入 Cloudflare 的域名，在 Cloudflare 创建命名 Tunnel，把 api.<域名> 指向本地 http://127.0.0.1:8000。
+Tunnel 由本地主动向外连接，不需要路由器开放入站端口。
+
+四、设置 Pages 运行时配置
+在 Pages 项目 Settings → Variables and Secrets 中配置 Production 环境：
+  NEWSLENS_API_BASE  = 第三步的 HTTPS Tunnel 根地址（无 /api 路径）
+  NEWSLENS_API_TOKEN = .env.api 中 NEWSLENS_API_TOKEN 的值，类型选 Secret/Encrypt
+
+NEWSLENS_API_BASE 必须是纯 origin，例如 https://api.example.com；不能带用户信息、查询串、片段或路径。
+线上不使用 http://127.0.0.1:8000，它是 Cloudflare 机器自身的地址；该值仅用于本地 wrangler 预览。
+生产运行时配置与 GitHub 的部署凭据是两组不同配置。只设置其中一组不足以使实时数据工作。
+修改 Pages 运行时变量或密钥后，重新部署一次使配置生效。
+Cloudflare 和 GitHub 都不需要保存你的 Alpaca 密钥或 HKBU 模型密钥；这些继续只保存在 Mac 本地 .env。
+
+五、配置 GitHub 自动发布
+在 Cloudflare API Tokens 创建自定义令牌：权限为目标账户的 Account → Cloudflare Pages → Edit。
+在 GitHub 仓库 Settings → Secrets and variables → Actions 设置：
+  Variables：
+    CLOUDFLARE_ACCOUNT_ID   Cloudflare 账户 ID
+    CLOUDFLARE_PROJECT_NAME Pages 项目名，例如 newslens-gp
+  Secrets：
+    CLOUDFLARE_API_TOKEN    上述 Cloudflare 发布令牌
+
+不要把任何令牌放进代码、README、Issues 或工作流 YAML。无需在聊天中发送令牌。
+设置完成后，在 GitHub Actions 打开 Deploy Cloudflare Pages，点击 Run workflow，选择 main。
+工作流顺序：Python/Streamlit/API 测试 + 前端/代理测试 → 构建 → 检查 Cloudflare 配置 → 发布。
+配置不全时，发布步骤会跳过，Summary 会明确说明缺少哪组配置；这不是成功上线。
+以后 push 到 main 且修改 frontend/ 或 CI/部署工作流时，会自动重新测试、构建、发布。
+仅修改本地数据不会触发网页部署，也不需要触发。部署成功后的网址以 Cloudflare/Actions 返回的结果为准。
+
+六、验收
+- Pages 页面能够打开；English/中文切换有效。
+- 页面显示真实后台状态、最后抓取时间、价格来源时间，不把页面打开时间当成行情时间。
+- 后台成功分析下一篇新闻后，网页无需重新部署即可更新。
+- 停止本地 API 或 Tunnel 后，网页显示连接异常，不继续宣称实时在线。
+- 恢复 API/Tunnel 后，网页可重新连接。Quick Tunnel 地址改变时更新 Pages 的 NEWSLENS_API_BASE 并重新部署。
+- 只读接口为 /api/status、/api/quotes、/api/news、/api/bars、/api/alerts；不提供密钥、后台日志、交易或远程启动分析接口。
+- API 代理拒绝未知路由、任意上游网址、重定向、写请求及超范围参数；请求超时约 6 秒，响应上限 2 MiB。
+
+仓库和凭据边界
+代码可以存入 GitHub；.env、.env.api、frontend/.dev.vars、数据文件、备份文件、node_modules 和临时目录必须保持忽略。
+前端 API 代理将 NEWSLENS_API_TOKEN 保留在服务器端。浏览器不拿到此令牌，但发布后的只读页面仍可供能访问网站的人读取所展示数据。
+若只允许老师和组员访问，应在对外发布前为 Pages 入口配置 Cloudflare Access，并覆盖所使用的 pages.dev/自定义域名；无需为了课堂演示开放管理功能。
+已有 M0–M4 冻结记录与本地数据仍保留在 GP，GitHub 发布源码不会覆盖它们。
+
+官方资料（本文件按 2026-11-05 核对）
+Pages Direct Upload：https://developers.cloudflare.com/pages/get-started/direct-upload/
+GitHub Actions + Wrangler：https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/
+Pages Secrets：https://developers.cloudflare.com/pages/functions/bindings/
+Quick Tunnel：https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/
+稳定 Tunnel：https://developers.cloudflare.com/tunnel/get-started/
+Pages Access 注意事项：https://developers.cloudflare.com/pages/platform/known-issues/

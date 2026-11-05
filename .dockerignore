@@ -1,0 +1,23 @@
+.git
+.env
+.venv
+data
+artifacts
+__pycache__
+*.pyc
+.streamlit/secrets.toml
+checkpoints.bundle
+_integration_backups/
+
+# Public frontend / local API development
+.env.*
+!.env.example
+.dev.vars*
+**/.dev.vars*
+work/
+outputs/
+node_modules/
+frontend/dist/
+.wrangler/
+**/.wrangler/
+.DS_Store

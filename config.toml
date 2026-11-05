@@ -1,0 +1,6 @@
+mode = "demo"
+symbols = ["AAPL", "MSFT", "NVDA", "AMD", "JPM", "BAC", "XOM", "CVX", "JNJ", "UNH"]
+quote_interval = 60
+news_interval = 180
+max_age_seconds = 180
+feed = "iex"
