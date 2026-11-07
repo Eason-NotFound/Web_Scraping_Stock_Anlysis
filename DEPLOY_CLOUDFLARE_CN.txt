@@ -113,3 +113,14 @@ Pages Secrets：https://developers.cloudflare.com/pages/functions/bindings/
 Quick Tunnel：https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/
 稳定 Tunnel：https://developers.cloudflare.com/tunnel/get-started/
 Pages Access 注意事项：https://developers.cloudflare.com/pages/platform/known-issues/
+
+七、后台运行但网页未连接时（已完成首次部署的 Mac）
+请使用固定主网址：https://newslens-gp.pages.dev/ 。历史版本 cc307de3 等地址会保留发布当时的连接配置，重连后可能继续失效。
+双击 GP/ Reconnect_Website.command，或在终端执行：
+  /Users/quyichen/Desktop/y4s1/Econ3086/GP/Reconnect_Website.command
+它会检查本地 API；必要时启动 API、重建失效的 Quick Tunnel，将新地址保存为 Pages Secret，并通过 GitHub 自动重新部署。保持终端打开直到显示 Website reconnected。
+此操作不会启动、暂停或重启新闻抓取 worker。需要实时抓取时，另行运行 Start_Monitor.command。
+重连入口依赖首次部署时已配置的 work/tools/cloudflared、work/tools/gh、work/github-auth、.env.api 和 .env.cloudflare；这些私密配置与本地工具不上传 GitHub。
+只检查连接、不更改服务或发布配置：
+  cd /Users/quyichen/Desktop/y4s1/Econ3086/GP
+  .venv/bin/python reconnect_web.py --check
