@@ -1,0 +1,31 @@
+NewsLens 离线展示练习
+
+打开方法
+双击 GP/Start_Practice.command，或在终端运行：
+  /Users/quyichen/Desktop/y4s1/Econ3086/GP/Start_Practice.command
+然后打开 http://127.0.0.1:8790/ 。保持练习终端开启，结束时按 Control+C。
+若提示端口已占用，说明之前的练习窗口可能仍在运行；直接打开上述本地网址即可。
+
+可以练习什么
+1. Market：介绍股票列表、涨跌幅、来源时间，切换股票展示日线图。
+2. News intelligence：翻页，按股票/分类/情绪筛选，展示摘要、影响解释及原文证据。
+   可选 AAPL → Finance → Neutral，展开 Audit trail 讲解模型、文章版本及分析时间。
+3. Recorded alerts：介绍已有事件、触发原因和推送状态。
+4. 切换 English/中文，点击 Refresh data 练习刷新操作。
+
+数据与费用
+练习页用的是你已采集、分析过的真实历史结果快照，顶部持续标明 OFFLINE PRACTICE / 离线练习和保存时间。
+首次启动从本地数据库只读导出；之后直接读 data/practice/snapshot.json，断网也可练习。
+不会调用 Alpaca、学校模型或 Telegram，不会重新分析新闻，不会写入真实数据库。
+页面自动/手动刷新只读取同一份本地快照，所以结果不会继续增加。
+原始新闻外链打开原站时仍需网络；Audit trail 内保存的原摘要和引用证据可离线展示。
+真实新闻监控已确认停止。练习时只需启动 Start_Practice.command。
+重新运行 Start_Monitor.command 会恢复真实采集及模型调用，届时会再次使用外部 API 额度。
+
+更新快照
+先关闭已有练习服务器，并确保真实监控已暂停，然后运行：
+  cd /Users/quyichen/Desktop/y4s1/Econ3086/GP
+  .venv/bin/python run_practice.py --refresh-snapshot
+旧快照会先备份到 _integration_backups/，新快照仍保留在 data/practice/，不上传 GitHub。
+
+这个入口用于重复讲解现有网页和已有结果。不会模拟后台新触发事件或生成新的 AI 判断。

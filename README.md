@@ -46,6 +46,14 @@ If the website loses its connection after sleep or a network change, run `./Reco
 
 To collect new prices and analyses, run `./Start_Monitor.command` in a separate terminal. To use the local Streamlit interface, run `./Start_Dashboard.command`. Stop each process with Control+C. The public dashboard accurately shows paused/offline states and source timestamps; it never substitutes demo records for missing live data.
 
+## Offline presentation practice
+
+Run `./Start_Practice.command` and open `http://127.0.0.1:8790/`. The same public dashboard, charts, news filters, pagination, audit details, alerts and language switch run from a frozen local snapshot. Internet access, the live API and Cloudflare are not required. The persistent bilingual notice identifies the capture time and saved historical results.
+
+The first launch exports only the existing read-only public database fields, in process, into `data/practice/snapshot.json`. It requires the real monitor to be paused. Subsequent launches read that snapshot only. No provider requests, new AI analysis, notifications or database updates occur. `Refresh data` reloads the same snapshot. Original article links still require Internet access.
+
+The snapshot stays local and is excluded from Git. After stopping the practice server, `./.venv/bin/python run_practice.py --refresh-snapshot` updates it from saved database records and starts practice again. `--check` validates the existing snapshot without starting a server. See `PRACTICE_CN.txt` for presentation steps. Start the real monitor separately only when you want new collection and model calls.
+
 ## Cloudflare and GitHub Actions
 
 The repository includes a Direct Upload Pages deployment workflow:
@@ -74,7 +82,7 @@ npm test
 npm run build
 ```
 
-Current local verification: 101 Python tests and 26 JavaScript tests. Coverage includes mode isolation, evidence checks, signal rules, bilingual state preservation, read-only API authentication and projection, pagination, proxy restrictions and refresh behavior. Live provider connectivity has been checked locally; model semantic accuracy remains a separate human-review task.
+Current local verification: 109 Python tests and 26 JavaScript tests. Coverage includes mode isolation, evidence checks, signal rules, bilingual state preservation, read-only API authentication and projection, pagination, proxy restrictions and refresh behavior. Live provider connectivity has been checked locally; model semantic accuracy remains a separate human-review task.
 
 ## Data and source boundaries
 
