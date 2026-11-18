@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { apiPath, chartGeometry, chartSeries, dashboardMetrics, numberOrNull, percentChange, quoteState, replayPriceCrossing, safeSourceUrl, singleFlight, timestamp, translate, validateEnvelope } from '../public/app.js';
+import { apiPath, chartGeometry, chartSeries, dashboardMetrics, numberOrNull, percentChange, quoteState, safeSourceUrl, singleFlight, timestamp, translate, validateEnvelope } from '../public/app.js';
 
 test('only explicit live envelopes can supply dashboard data',()=>{
   const envelope={data:[],meta:{data_mode:'live',generated_at:'2026-11-05T12:00:00Z'}};
@@ -107,37 +107,4 @@ test('unavailable or missing counts stay unavailable rather than fabricated zero
   assert.deepEqual(dashboardMetrics({},null),{stocks:null,news:null,analyses:null,alerts:null});
   assert.deepEqual(dashboardMetrics({data_available:true},[]),{stocks:0,news:null,analyses:null,alerts:null});
   assert.deepEqual(dashboardMetrics({data_available:true,news_total:0,analysis_counts:{success:0},counts:{alerts:0}},[]),{stocks:0,news:0,analyses:0,alerts:0});
-});
-
-test('synthetic replay triggers only on a crossing, including arrival at the threshold', () => {
-  assert.deepEqual(replayPriceCrossing('first'), {
-    previous: null, current: 101, threshold: 100, triggered: false,
-  });
-  assert.deepEqual(replayPriceCrossing('cross'), {
-    previous: 99, current: 100, threshold: 100, triggered: true,
-  });
-  assert.deepEqual(replayPriceCrossing('above'), {
-    previous: 101, current: 102, threshold: 100, triggered: false,
-  });
-});
-
-test('public price-crossing examples and outcomes have both English and Chinese labels', () => {
-  for (const key of ['priceCrossingTitle', 'syntheticExample', 'triggeredExample', 'noTriggerExample']) {
-    const en = translate(key, 'en');
-    const zh = translate(key, 'zh');
-    assert.notEqual(en, key);
-    assert.ok(en.trim());
-    assert.match(zh, /\p{Script=Han}/u);
-    assert.notEqual(en, zh);
-  }
-});
-
-test('Recorded alerts includes the linked price-crossing section and its three examples', async () => {
-  const html = await readFile(new URL('../public/index.html', import.meta.url), 'utf8');
-  const panel = html.match(/<section\b[^>]*\bid="panel-alerts"[^>]*>([\s\S]*?)<\/section>/)?.[1];
-  assert.ok(panel, 'Recorded alerts panel missing');
-  assert.match(panel, /\bid="price-crossing"/);
-  assert.match(panel, /\bdata-i18n="priceCrossingTitle"/);
-  const scenarios = Array.from(panel.matchAll(/\bdata-crossing-example="([^"]+)"/g), match => match[1]);
-  assert.deepEqual(scenarios.sort(), ['above', 'cross', 'first']);
 });

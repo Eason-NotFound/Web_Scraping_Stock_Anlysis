@@ -29,30 +29,7 @@
         <div class="filters"><div class="filter"><label for="news-symbol" data-i18n="stock">Stock</label><select id="news-symbol"></select></div><div class="filter"><label for="news-category" data-i18n="category">Category</label><select id="news-category"></select></div><div class="filter"><label for="news-sentiment" data-i18n="sentiment">Sentiment</label><select id="news-sentiment"></select></div><div class="filter-note" data-i18n="originalNote">Original article text and quoted evidence are kept in their source language.</div></div>
         <div id="news-content"></div><div id="news-pagination" class="pagination"></div>
       </section>
-      <section id="panel-alerts" role="tabpanel" aria-labelledby="tab-alerts" hidden>
-        <section id="price-crossing" class="card crossing-card" aria-labelledby="crossing-title">
-          <div class="card-head"><div>
-            <h2 id="crossing-title" data-i18n="priceCrossingTitle">Price crossing</h2>
-            <p class="card-subtitle" data-i18n="syntheticExample">Synthetic example · AAPL upward crossing at $100.00. Examples run only in your browser.</p>
-          </div></div>
-          <div class="crossing-body">
-            <div class="crossing-controls" role="group" aria-labelledby="crossing-title">
-              <button class="button" type="button" data-crossing-example="first" data-i18n="firstQuoteExample" aria-pressed="false">First quote</button>
-              <button class="button" type="button" data-crossing-example="cross" data-i18n="crossQuoteExample" aria-pressed="true">Crosses $100</button>
-              <button class="button" type="button" data-crossing-example="above" data-i18n="aboveQuoteExample" aria-pressed="false">Stays above $100</button>
-            </div>
-            <div class="crossing-result" aria-live="polite" aria-atomic="true">
-              <dl class="crossing-prices">
-                <div><dt data-i18n="previousQuote">Previous price</dt><dd id="crossing-previous"></dd></div>
-                <div><dt data-i18n="currentQuote">Current price</dt><dd id="crossing-current"></dd></div>
-                <div><dt data-i18n="exampleOutcome">Rule result</dt><dd><span id="crossing-outcome" class="badge"></span></dd></div>
-              </dl>
-              <p id="crossing-reason"></p>
-            </div>
-          </div>
-        </section>
-        <div id="alerts-content"></div><div id="alerts-pagination" class="pagination"></div>
-      </section>
+      <section id="panel-alerts" role="tabpanel" aria-labelledby="tab-alerts" hidden><div id="alerts-content"></div><div id="alerts-pagination" class="pagination"></div></section>
     </div>
     <section class="method-note"><span class="note-icon" aria-hidden="true">i</span><div><strong data-i18n="noteTitle">Evidence before interpretation</strong><p data-i18n="noteCopy">Source timestamps determine freshness. Model interpretations require human review. Saved alerts describe observed events; they do not establish prediction accuracy or investment returns.</p></div></section>
     <footer><span>NewsLens <span class="footer-divider">/</span> ECON3086</span><span data-i18n="footer">One market. Clear sources. Traceable observations.</span></footer>
