@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { apiPath, chartGeometry, chartSeries, dashboardMetrics, numberOrNull, percentChange, quoteState, safeSourceUrl, singleFlight, timestamp, translate, validateEnvelope } from '../public/app.js';
+import { apiPath, chartGeometry, chartSeries, dashboardMetrics, numberOrNull, percentChange, quoteState, newsSourceLink, safeSourceUrl, singleFlight, timestamp, translate, validateEnvelope } from '../public/app.js';
 
 test('only explicit live envelopes can supply dashboard data',()=>{
   const envelope={data:[],meta:{data_mode:'live',generated_at:'2026-11-05T12:00:00Z'}};
@@ -12,6 +12,27 @@ test('only explicit live envelopes can supply dashboard data',()=>{
 test('source links allow web documents but reject active schemes and embedded credentials',()=>{
   assert.equal(safeSourceUrl('https://example.org/article?id=10'),'https://example.org/article?id=10');
   for(const unsafe of ['javascript:alert(1)','data:text/html,<script>alert(1)</script>','file:///etc/passwd','https://user:secret@example.org/','//example.org','not a URL'])assert.equal(safeSourceUrl(unsafe),null);
+});
+
+test('published news links describe the destination without asserting an article match', () => {
+  const cases = [
+    ['https://www.benzinga.com/quote/NVDA', 'benzinga.com', 'marketLink'],
+    ['https://www.moomoo.com/stock/BK2999?from=feed', 'moomoo.com', 'marketLink'],
+    ['https://www.newsnow.co.uk/h/Industry+Sectors/Energy', 'newsnow.co.uk', 'topicLink'],
+    ['https://www.fidelity.com/news/article/company-news/example', 'fidelity.com', 'feedLink'],
+    ['https://www.moomoo.com/hans/news/post/123/story', 'moomoo.com', 'feedLink'],
+    ['https://www.benzinga.com/news/article', 'benzinga.com', 'feedLink'],
+    ['https://example.org/quote/NVDA', 'example.org', 'feedLink'],
+    ['https://example.org/?article=22', 'example.org', 'feedLink'],
+    ['https://example.org/', 'example.org', 'siteHome'],
+  ];
+  for (const [href, host, label] of cases) {
+    assert.deepEqual(newsSourceLink(href), {href, host, label});
+    assert.notEqual(translate(label, 'en'), translate(label, 'zh'));
+  }
+  assert.equal(newsSourceLink(''), null);
+  assert.equal(newsSourceLink('javascript:void(0)'), null);
+  assert.equal(newsSourceLink('https://user:pass@example.org/'), null);
 });
 
 test('filter query values remain data, not injected query parameters',()=>{
