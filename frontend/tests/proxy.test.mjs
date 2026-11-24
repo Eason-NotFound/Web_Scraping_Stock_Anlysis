@@ -46,23 +46,6 @@ test("forwards valid filters while preserving exact category and pagination", as
   assert.equal(url.searchParams.get("offset"), "40");
 });
 
-test("saved snapshot is fetched only from the configured Pages preview without authentication", async t => {
-  const snapshot = {schema:1, kind:"saved-live-snapshot", captured_at:"2026-11-24T13:00:00Z",
-                    status:{worker_running:false}};
-  const fetch = t.mock.method(globalThis, "fetch", async (url, options) => {
-    assert.equal(url, "https://presentation-data.newslens-gp.pages.dev/snapshot.json");
-    assert.equal(options.headers.Authorization, undefined);
-    assert.equal(options.redirect, "error");
-    return Response.json(snapshot);
-  });
-  const response = await onRequest({request:request("snapshot",{headers:{Authorization:"Bearer browser-input"}}), env});
-  assert.equal(response.status, 200);
-  assert.deepEqual(await response.json(), snapshot);
-  assert.equal((await onRequest({request:request("snapshot?url=other"),env})).status,400);
-  assert.equal((await onRequest({request:request("snapshot",{method:"POST"}),env})).status,405);
-  assert.equal(fetch.mock.callCount(), 1);
-});
-
 test("all five routes accept their expected response data shapes", async t => {
   t.mock.method(globalThis, "fetch", async url => ok(url.includes("/status") ? {} : []));
   for (const path of ["status", "quotes", "news", "bars?symbol=MSFT&limit=500", "alerts?limit=100&offset=10000"]) {

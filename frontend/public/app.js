@@ -138,7 +138,7 @@ function boot() {
   async function fetchData(path) { const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);try { const response=await fetch(path,{headers:{Accept:'application/json'},cache:'no-store',credentials:'same-origin',signal:controller.signal});if(!response.ok)throw new Error(`HTTP ${response.status}`);return validateEnvelope(await response.json());}finally{clearTimeout(timer);} }
   async function getSavedSnapshot() {
     if (savedSnapshot) return savedSnapshot;
-    const response = await fetch('/api/snapshot', {
+    const response = await fetch('/snapshot.json', {
       headers:{Accept:'application/json'},
       cache:'no-store',
       signal:AbortSignal.timeout(8000),

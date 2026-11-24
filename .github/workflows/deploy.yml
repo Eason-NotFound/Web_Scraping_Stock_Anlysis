@@ -64,6 +64,21 @@ jobs:
         run: |
           npm ci
           npm run build
+      - name: Bundle the public presentation snapshot
+        working-directory: frontend
+        run: |
+          curl --fail --silent --show-error --retry 3 --max-time 20 --max-filesize 2097152 \
+            https://presentation-data.newslens-gp.pages.dev/snapshot.json -o dist/snapshot.json
+          node --input-type=module <<'JS'
+          import { readFileSync } from 'node:fs';
+          const snapshot = JSON.parse(readFileSync('dist/snapshot.json', 'utf8'));
+          if (snapshot?.schema !== 1 || snapshot.kind !== 'saved-live-snapshot' ||
+              !Number.isFinite(Date.parse(snapshot.captured_at)) ||
+              snapshot.status?.worker_running !== false || snapshot.status.data_available !== true ||
+              !snapshot.bars || !['quotes','news','alerts'].every(key => Array.isArray(snapshot[key]))) {
+            throw new Error('Invalid presentation snapshot');
+          }
+          JS
       - name: Deploy prebuilt frontend and Pages Functions
         uses: cloudflare/wrangler-action@v4
         with:

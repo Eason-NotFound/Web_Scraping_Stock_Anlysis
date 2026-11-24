@@ -1,7 +1,6 @@
 // Read-only same-origin proxy. Secrets stay in Pages Functions, never browser JS.
 const MAX_BYTES = 2 * 1024 * 1024;
 const TIMEOUT_MS = 6000;
-const SNAPSHOT_URL = "https://presentation-data.newslens-gp.pages.dev/snapshot.json";
 const ROUTES = new Set(["status", "quotes", "news", "bars", "alerts"]);
 const CATEGORIES = new Set(["Finance", "Politics & Policy", "Macro", "Other"]);
 const SENTIMENTS = new Set(["positive", "negative", "neutral", "unclear"]);
@@ -93,29 +92,6 @@ async function readJsonBounded(response) {
   return JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(buffer));
 }
 
-async function presentationSnapshot() {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-  try {
-    const response = await fetch(SNAPSHOT_URL, {
-      headers: { Accept: "application/json" },
-      redirect: "error",
-      signal: controller.signal,
-    });
-    if (!response.ok) throw new Error("snapshot response");
-    const snapshot = await readJsonBounded(response);
-    if (snapshot?.schema !== 1 || snapshot.kind !== "saved-live-snapshot" ||
-        typeof snapshot.captured_at !== "string" || snapshot.status?.worker_running !== false) {
-      throw new Error("invalid snapshot");
-    }
-    return jsonResponse(snapshot);
-  } catch {
-    return failure(503, "SNAPSHOT_UNAVAILABLE", "The saved presentation snapshot is unavailable.");
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
 export async function onRequest({ request, env = {} }) {
   if (request.method !== "GET") {
     return failure(405, "METHOD_NOT_ALLOWED", "Only GET requests are available.", { Allow: "GET" });
@@ -123,10 +99,6 @@ export async function onRequest({ request, env = {} }) {
   const url = new URL(request.url);
   const match = /^\/api\/([a-z]+)\/?$/.exec(url.pathname);
   const route = match?.[1];
-  if (route === "snapshot") {
-    if (url.search) return failure(400, "INVALID_QUERY", "The snapshot takes no query parameters.");
-    return presentationSnapshot();
-  }
   if (!ROUTES.has(route)) return failure(404, "NOT_FOUND", "This API route is not available.");
   const query = checkedQuery(route, url.searchParams);
   if (query === null) return failure(400, "INVALID_QUERY", "The request contains unsupported or invalid query parameters.");
