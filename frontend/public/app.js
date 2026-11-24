@@ -1,5 +1,7 @@
 /** Public read-only dashboard. No credentials, orders, or administrative actions. */
 const COPY = {
+  snapshotTitle: ['Saved snapshot', '已保存快照'],
+  snapshotAt: ['Snapshot captured', '快照截取时间'],
   'Golden cross': ['Golden cross', '均线金叉'],
   'Death cross': ['Death cross', '均线死叉'],
   skip:['Skip to dashboard','跳至监控面板'], brandNote:['MARKET INTELLIGENCE','市场资讯观察'], readOnly:['Public · read only','公开 · 只读'], eyebrow:['OBSERVE. UNDERSTAND. VERIFY.','观察 · 理解 · 验证'], title:['A clearer view of the market.','更清晰地看见市场。'], intro:['Follow prices, read the evidence, and see what the monitor has recorded.','跟踪行情，阅读原始证据，查看监控系统留下的记录。'], refresh:['Refresh data','刷新数据'], refreshing:['Refreshing…','刷新中…'], autoRefresh:['Updates every 30 seconds','每 30 秒自动刷新'], market:['Market','市场行情'], news:['News intelligence','新闻分析'], alerts:['Recorded alerts','提醒记录'], stock:['Stock','股票'], category:['Category','分类'], sentiment:['Sentiment','情绪'], originalNote:['AI analyses the headline and summary supplied through Alpaca. Open Audit trail to compare a quote with the saved text.','AI 根据 Alpaca 提供的标题和摘要进行分析。展开「审计信息」可对照保存的文字核对引文。'], noteTitle:['Evidence before interpretation','先看证据，再作判断'], noteCopy:['Source timestamps determine freshness. Model interpretations require human review. Saved alerts describe observed events; they do not establish prediction accuracy or investment returns.','请根据来源时间判断数据时效。模型解读仍需人工复核。提醒记录描述已观察到的事件，并不证明预测准确率或投资收益。'], footer:['One market. Clear sources. Traceable observations.','专注一个市场，明确来源，保留可追溯的观察记录。'], summary:['Monitoring summary','监控概况'], workspace:['Workspace','工作区'], connectTitle:['Connecting to saved results','正在连接已保存的结果'], connectDetail:['Checking access to saved market data.','正在检查能否读取已保存的市场数据。'], offlineTitle:['Data connection unavailable','数据连接暂不可用'], offlineDetail:['The data service could not be reached. Any previously received results remain visible below.','暂时无法连接数据服务。下方保留上次成功接收的结果。'], offlineEmpty:['No saved results have been received. The dashboard will retry automatically.','尚未收到已保存的结果。页面会自动重试。'], running:['Monitoring is running','后台监控正在运行'], runningDetail:['Reading the latest saved observations. API availability and source timestamps still determine freshness.','正在读取最新保存的观察结果。实际时效取决于接口状态和来源时间。'], paused:['Monitoring is paused','后台监控未运行'], pausedDetail:['Showing saved results. New prices and analyses require the monitor to be running.','正在展示已保存的结果。后台运行后才会采集新的行情和分析。'], noDataTitle:['Connected · waiting for data','已连接 · 等待数据'], noDataDetail:['The service is reachable, but no live monitoring data is available yet.','数据服务可连接，但尚无可用的实时监控记录。'], lastReceived:['Last received','上次接收'], notAvailable:['Not available','暂无'], stocksTracked:['Stocks tracked','已记录股票'], pricesSaved:['Latest saved observations','最新保存的行情'], newsSaved:['News articles','新闻文章'], latestVersions:['Latest article versions','各文章的最新版本'], analyses:['Completed analyses','已完成分析'], evidenceChecked:['Format and evidence checks passed','已通过格式及证据检查'], alertCount:['Recorded events','已记录事件'], savedEvents:['Observed events, not predictions','观察事件，不代表预测'], watchlist:['Your watchlist','股票观察列表'], watchSubtitle:['Saved prices with their source timestamps.','已保存价格及对应的来源时间。'], price:['Price','价格'], change:['Change','涨跌幅'], state:['Status','状态'], fresh:['Fresh','近期数据'], stale:['Stale / unavailable','过期／暂无'], closed:['Market closed','市场休市'], clockUnknown:['Clock unavailable','市场时钟不可用'], unknown:['Unavailable','暂无'], quoteNote:['USD · Feed coverage is shown per stock. A polling interval is not a guarantee of price freshness.','美元 · 各股票显示对应数据源。轮询间隔不等于价格时效保证。'], noQuotes:['No saved prices yet','尚无已保存行情'], noQuotesDetail:['Prices will appear after the monitor completes a successful collection. No placeholder prices are used.','后台成功采集行情后将在此显示。页面不会填入示例价格。'], history:['Completed daily closes','已完成交易日收盘价'], close:['Close','收盘价'], dailyNote:['Historical observations · not a forecast','历史观察数据 · 非预测'], sourceTime:['Price source time','行情来源时间'], receivedTime:['Price received time','行情接收时间'], noBars:['No saved daily history','尚无已保存的日线'], noBarsDetail:['The selected stock has no completed daily bars available.','所选股票暂无可用的已完成交易日日线。'], chartLabel:['Daily close chart','每日收盘价图'], allStocks:['All stocks','全部股票'], allCategories:['All categories','全部分类'], allSentiments:['All sentiments','全部情绪'], Finance:['Finance','财经'], 'Politics & Policy':['Politics & Policy','政治与政策'], Macro:['Macro','宏观'], Other:['Other','其他'], positive:['Positive','正面'], negative:['Negative','负面'], neutral:['Neutral','中性'], unclear:['Unclear','不明确'], pending:['Pending analysis','等待分析'], success:['Analysis complete','分析完成'], insufficient:['Insufficient content','正文不足'], error:['Analysis unavailable','分析暂不可用'], noNews:['No articles to display','暂无可显示的新闻'], noNewsDetail:['No saved articles match these filters. Change a filter or wait for the next collection.','当前没有符合筛选条件的已保存文章。可调整筛选条件或等待下次采集。'], unavailableNews:['News is not available yet','新闻暂不可用'], unavailableNewsDetail:['Waiting for a successful response from the data service.','正在等待数据服务成功返回结果。'], sourceEvidence:['Quote from news feed','新闻数据引文'], feedLink:['Source link','来源链接'], marketLink:['Market data','行情页'], topicLink:['News listing','新闻列表'], siteHome:['Site homepage','网站首页'], audit:['Audit trail','审计信息'], articleId:['Article ID','文章编号'], version:['Version','版本'], model:['Model','模型'], analysed:['Analysed','分析时间'], received:['Received','接收时间'], feedHeadline:['Feed headline','供稿标题'], originalSummary:['Feed summary','供稿摘要'], modelSummary:['AI summary','AI 摘要'], feedSource:['Feed contributor','供稿方'], notRun:['Not run','尚未运行'], noImpact:['No evidence-backed stock impact was recorded.','尚未记录有证据支持的个股影响。'], noAlerts:['No saved alerts','尚无提醒记录'], noAlertsDetail:['Alerts appear only when configured rules produce a recorded event. No example alerts are inserted.','已配置规则产生事件后才会留下提醒记录。此处不会填入示例提醒。'], alertsTitle:['Event audit','事件记录'], alertsSubtitle:['A read-only record of observed rule events. Reasons and quoted evidence remain as originally recorded.','已观察到的规则事件，只读展示。原因及引用证据保留原始记录。'], event:['Event','事件'], time:['Time (UTC)','时间（UTC）'], reason:['Reason / original evidence','原因／原始证据'], delivery:['Delivery','推送'], priceEvent:['Price crossing','价格穿越'], newsEvent:['News event','新闻事件'], composite:['Combined event','组合事件'], pendingDelivery:['Pending delivery','等待推送'], sent:['Sent','已发送'], failed:['Failed','失败'], sending:['Sending','发送中'], skipped_demo:['Skipped in demo','演示模式跳过'], unknownDelivery:['Outcome unknown','结果未知'], previous:['Previous','上一页'], next:['Next','下一页'], page:['Page','页'], of:['of','／'], results:['results','条结果'], partialOffline:['This request failed. Showing the last successfully received results for this selection.','本次请求失败。正在展示当前选择上次成功接收的结果。'], noResponse:['No response for this selection yet.','当前选择尚未收到数据。'], quoteFetch:['Last successful price collection','上次行情采集成功'], newsFetch:['Last successful news collection','上次新闻采集成功'], connectionCheck:['Connection checked','连接检查时间'], records:['records','条记录'], originalSource:['Original source','原始来源'], untitled:['Untitled article','未命名文章']
@@ -29,6 +31,40 @@ export function quoteState(quote, now=Date.now()) { if (quote.clock_status==='un
 export function percentChange(quote) { const p=numberOrNull(quote.price), c=numberOrNull(quote.previous_close); return p!==null&&p>0&&c!==null&&c>0 ? (p/c-1)*100:null; }
 export function apiPath(resource, parameters={}) { if(!['status','quotes','news','bars','alerts'].includes(resource)) throw new Error('Unsupported resource'); const query=new URLSearchParams(); for(const [key,value] of Object.entries(parameters)) if(value!==''&&value!==null&&value!==undefined) query.set(key,String(value)); return `/api/${resource}${query.size?'?'+query:''}`; }
 export function validateEnvelope(payload) { if(!payload||typeof payload!=='object'||!payload.meta||payload.meta.data_mode!=='live'||payload.data===null||typeof payload.data!=='object') throw new Error('Invalid live data response'); return payload; }
+export function savedSnapshotEnvelope(snapshot, path) {
+  const request = new URL(path, 'https://newslens.invalid');
+  const resource = request.pathname.split('/').pop();
+  const query = request.searchParams;
+  const symbol = query.get('symbol');
+  const limit = Number(query.get('limit') ?? {bars:120, news:20, alerts:50}[resource]);
+  const offset = Number(query.get('offset') ?? 0);
+  const meta = {data_mode:'live', generated_at:snapshot.captured_at, snapshot_at:snapshot.captured_at};
+  if (resource === 'status') return {data:snapshot.status, meta};
+  if (resource === 'quotes') return {data:snapshot.quotes, meta:{...meta, total:snapshot.quotes.length}};
+  if (resource === 'bars') {
+    const data = (snapshot.bars[symbol] ?? []).slice(-limit);
+    return {data, meta:{...meta, symbol, total:data.length}};
+  }
+
+  let rows;
+  if (resource === 'news') {
+    const category = query.get('category');
+    const sentiment = query.get('sentiment');
+    rows = snapshot.news.filter(row => {
+      const analysis = row.analysis ?? {};
+      return (!symbol || row.symbols.includes(symbol)) &&
+        (!category || (analysis.categories ?? []).includes(category)) &&
+        (!sentiment || (analysis.impacts ?? []).some(impact => impact.sentiment === sentiment &&
+          (!symbol || impact.symbol === symbol)));
+    });
+  } else if (resource === 'alerts') {
+    rows = snapshot.alerts.filter(row => !symbol || row.symbol === symbol);
+  } else {
+    throw new Error('Unknown saved data resource');
+  }
+  return {data:rows.slice(offset, offset + limit), meta:{...meta, total:rows.length, limit, offset}};
+}
+
 export function dashboardMetrics(status, latestQuotes=null) {
   if (status?.data_available !== true) return {stocks:null,news:null,analyses:null,alerts:null};
   const count=value=>{const n=numberOrNull(value);return Number.isInteger(n)&&n>=0?n:null;};
@@ -42,7 +78,9 @@ export function singleFlight(task, idle=()=>{}) { let active=null,pending=false;
 
 function boot() {
   const $=id=>document.getElementById(id);
-  const state={language:'en',tab:'market',symbol:'',news:{symbol:'',category:'',sentiment:'',offset:0},alertOffset:0,cache:new Map(),errors:new Map(),connection:'loading',busy:false,timer:null};
+  const presentationMode = new URLSearchParams(window.location.search).get('snapshot') === '1';
+  let savedSnapshot;
+  const state={language:'en',tab:'market',symbol:'',news:{symbol:'',category:'',sentiment:'',offset:0},alertOffset:0,cache:new Map(),errors:new Map(),connection:'loading',snapshotAt:null,busy:false,timer:null};
   try { state.language=localStorage.getItem('newslens.language')==='zh'?'zh':'en'; } catch {}
   const t=key=>translate(key,state.language);
   function node(tag,className,text) { const n=document.createElement(tag); if(className)n.className=className; if(text!==undefined&&text!==null)n.textContent=String(text); return n; }
@@ -64,12 +102,13 @@ function boot() {
   function fillSelect(select,options,value) { select.replaceChildren(...options.map(([v,label])=>{const option=node('option','',label);option.value=v;return option;}));select.value=value; }
   function renderChrome() { document.documentElement.lang=state.language==='zh'?'zh-CN':'en'; document.title=state.language==='zh'?'NewsLens · 市场资讯观察':'NewsLens · Market intelligence'; document.querySelectorAll('[data-i18n]').forEach(n=>n.textContent=t(n.dataset.i18n)); $('language').value=state.language; $('metrics').setAttribute('aria-label',t('summary')); document.querySelector('[role=tablist]').setAttribute('aria-label',t('workspace')); for(const button of document.querySelectorAll('[data-tab]')) { const selected=button.dataset.tab===state.tab;button.setAttribute('aria-selected',String(selected));button.tabIndex=selected?0:-1;$(`panel-${button.dataset.tab}`).hidden=!selected; } $('refresh').disabled=state.busy; $('refresh').querySelector('[data-i18n]').textContent=t(state.busy?'refreshing':'refresh'); fillSelect($('news-symbol'),[['',t('allStocks')],...symbols().map(s=>[s,s])],state.news.symbol);fillSelect($('news-category'),[['',t('allCategories')],...['Finance','Politics & Policy','Macro','Other'].map(s=>[s,t(s)])],state.news.category);fillSelect($('news-sentiment'),[['',t('allSentiments')],...['positive','negative','neutral','unclear'].map(s=>[s,t(s)])],state.news.sentiment); }
   function renderConnection() { const status=data(apiPath('status'),{}),last=cached(apiPath('status'));let title,detail,kind;
-    if(state.connection==='loading'&&!last){title='connectTitle';detail='connectDetail';kind='loading';}
+    if(state.snapshotAt){title='snapshotTitle';detail='snapshotAt';kind='paused';}
+    else if(state.connection==='loading'&&!last){title='connectTitle';detail='connectDetail';kind='loading';}
     else if(state.connection==='offline'){title='offlineTitle';detail=state.cache.size?'offlineDetail':'offlineEmpty';kind='offline';}
     else if(!status.data_available){title='noDataTitle';detail='noDataDetail';kind='paused';}
     else if(status.worker_running){title='running';detail='runningDetail';kind='online';}
     else {title='paused';detail='pausedDetail';kind='paused';}
-    $('connection').className=`connection ${kind}`;$('connection-title').textContent=t(title);$('connection-detail').textContent=t(detail);$('connection-time').replaceChildren();if(last){append($('connection-time'),node('span','',t('lastReceived')),node('br'),node('span','',time(last.receivedAt)));}
+    $('connection').className=`connection ${kind}`;$('connection-title').textContent=t(title);$('connection-detail').textContent=state.snapshotAt ? t(detail) + ' · ' + time(state.snapshotAt) : t(detail);$('connection-time').replaceChildren();if(last && !state.snapshotAt){append($('connection-time'),node('span','',t('lastReceived')),node('br'),node('span','',time(last.receivedAt)));}
   }
   function renderMetrics() { const values=dashboardMetrics(data(apiPath('status'),{}),cached(apiPath('quotes'))?list(apiPath('quotes')):null);const metrics=[['stocksTracked',values.stocks,'pricesSaved'],['newsSaved',values.news,'latestVersions'],['analyses',values.analyses,'evidenceChecked'],['alertCount',values.alerts,'savedEvents']];$('metrics').replaceChildren(...metrics.map(([label,value,note],i)=>{const card=node('div','metric');append(card,append(node('div','metric-label'),node('span','',t(label)),node('span','metric-index',`0${i+1}`)),node('div','metric-value',numberOrNull(value)===null?'—':Number(value).toLocaleString()),node('div','metric-note',t(note)));return card;})); }
   function svgElement(tag,attributes={},text) { const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attributes))n.setAttribute(k,String(v));if(text!==undefined)n.textContent=String(text);return n; }
@@ -97,7 +136,68 @@ function boot() {
   function renderAlerts() { const path=currentAlertsPath(),rows=list(path),card=node('div','card');append(card,cardHead('alertsTitle','alertsSubtitle'));if(!rows.length)append(card,empty('noAlerts','noAlertsDetail','⌁'));else {const table=node('table','alerts-table'),head=node('tr');for(const label of ['time','stock','event','price','reason','delivery'])append(head,node('th','',t(label)));append(table,append(node('thead'),head));const body=node('tbody');for(const row of rows){const tr=node('tr'),kind={price:'priceEvent',news:'newsEvent',composite:'composite'}[row.kind]??row.kind,delivery={pending:'pendingDelivery',unknown:'unknownDelivery'}[row.delivery_status]??row.delivery_status;append(tr,node('td','nowrap',time(row.created_at)),node('td','number',row.symbol??'—'),node('td','',t(kind??'unknown')),node('td','nowrap',money(row.price)),node('td','reason',row.reason??''),append(node('td'),badge(delivery??'unknownDelivery')));append(body,tr);}append(table,body);append(card,append(node('div','table-scroll'),table));}$('alerts-content').replaceChildren(...[errorNotice(path),card].filter(Boolean));pagination($('alerts-pagination'),path,state.alertOffset,50,offset=>{state.alertOffset=offset;render();refresh();}); }
   function render() { renderChrome();renderConnection();renderMetrics();if(state.tab==='market')renderMarket();else if(state.tab==='news')renderNews();else renderAlerts(); }
   async function fetchData(path) { const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);try { const response=await fetch(path,{headers:{Accept:'application/json'},cache:'no-store',credentials:'same-origin',signal:controller.signal});if(!response.ok)throw new Error(`HTTP ${response.status}`);return validateEnvelope(await response.json());}finally{clearTimeout(timer);} }
-  async function cycle() { clearTimeout(state.timer);state.busy=true;renderChrome();const paths=[apiPath('status'),apiPath('quotes')];if(state.tab==='news')paths.push(currentNewsPath());else if(state.tab==='alerts')paths.push(currentAlertsPath());else if(currentBarsPath())paths.push(currentBarsPath());const results=await Promise.allSettled(paths.map(fetchData));let failed=false;results.forEach((result,i)=>{if(result.status==='fulfilled'){state.cache.set(paths[i],{...result.value,receivedAt:new Date().toISOString()});state.errors.delete(paths[i]);}else{failed=true;state.errors.set(paths[i],true);}});state.connection=failed?'offline':'online';state.busy=false;const available=symbols(),old=state.symbol;if(!available.includes(state.symbol))state.symbol=available[0]??'';render();if(state.tab==='market'&&state.symbol!==old&&currentBarsPath())refresh(); }
+  async function getSavedSnapshot() {
+    if (savedSnapshot) return savedSnapshot;
+    const response = await fetch('/api/snapshot', {
+      headers:{Accept:'application/json'},
+      cache:'no-store',
+      signal:AbortSignal.timeout(8000),
+    });
+    if (!response.ok) throw new Error('Saved snapshot unavailable');
+    const snapshot = await response.json();
+    if (snapshot.schema !== 1 || snapshot.kind !== 'saved-live-snapshot' ||
+        timestamp(snapshot.captured_at) === null || snapshot.status?.worker_running !== false ||
+        snapshot.status.data_available !== true || !snapshot.bars ||
+        !['quotes','news','alerts'].every(key => Array.isArray(snapshot[key]))) {
+      throw new Error('Invalid saved snapshot');
+    }
+    savedSnapshot = snapshot;
+    return snapshot;
+  }
+
+  async function cycle() {
+    clearTimeout(state.timer);
+    state.busy = true;
+    renderChrome();
+    const paths = [apiPath('status'), apiPath('quotes')];
+    if (state.tab === 'news') paths.push(currentNewsPath());
+    else if (state.tab === 'alerts') paths.push(currentAlertsPath());
+    else if (currentBarsPath()) paths.push(currentBarsPath());
+
+    let results = presentationMode ? [] : await Promise.allSettled(paths.map(fetchData));
+    const liveReady = results.length && results.every(result => result.status === 'fulfilled') &&
+      results[0].value.data.data_available === true;
+    let snapshotAt = null;
+    if (!liveReady) {
+      try {
+        const snapshot = await getSavedSnapshot();
+        results = paths.map(path => ({status:'fulfilled', value:savedSnapshotEnvelope(snapshot,path)}));
+        snapshotAt = snapshot.captured_at;
+      } catch {
+        if (presentationMode) results = paths.map(() => ({status:'rejected'}));
+      }
+    }
+    if (snapshotAt !== state.snapshotAt) {
+      state.cache.clear();
+      state.errors.clear();
+    }
+    state.snapshotAt = snapshotAt;
+    results.forEach((result,i) => {
+      if (result.status === 'fulfilled') {
+        state.cache.set(paths[i], {...result.value, receivedAt:new Date().toISOString()});
+        state.errors.delete(paths[i]);
+      } else {
+        state.errors.set(paths[i], true);
+      }
+    });
+    state.connection = results.every(result => result.status === 'fulfilled') ? 'online' : 'offline';
+    state.busy = false;
+    const available = symbols();
+    const old = state.symbol;
+    if (!available.includes(state.symbol)) state.symbol = available[0] ?? '';
+    render();
+    if (state.tab === 'market' && state.symbol !== old && currentBarsPath()) refresh();
+  }
   const refresh=singleFlight(cycle,()=>{state.timer=setTimeout(()=>refresh(),30000);});
   $('language').addEventListener('change',()=>{state.language=$('language').value==='zh'?'zh':'en';try{localStorage.setItem('newslens.language',state.language);}catch{}render();});
   $('refresh').addEventListener('click',()=>refresh());

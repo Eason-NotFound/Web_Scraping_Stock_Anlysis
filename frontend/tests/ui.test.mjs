@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { apiPath, chartGeometry, chartSeries, dashboardMetrics, numberOrNull, percentChange, quoteState, newsSourceLink, safeSourceUrl, singleFlight, timestamp, translate, validateEnvelope } from '../public/app.js';
+import { apiPath, chartGeometry, chartSeries, dashboardMetrics, numberOrNull, percentChange, quoteState, newsSourceLink, safeSourceUrl, savedSnapshotEnvelope, singleFlight, timestamp, translate, validateEnvelope } from '../public/app.js';
 
 test('only explicit live envelopes can supply dashboard data',()=>{
   const envelope={data:[],meta:{data_mode:'live',generated_at:'2026-11-05T12:00:00Z'}};
@@ -44,6 +44,20 @@ test('filter query values remain data, not injected query parameters',()=>{
   assert.equal(parsed.searchParams.get('limit'),'20');
   assert.equal(apiPath('news',{symbol:'',category:'',limit:20,offset:0}),'/api/news?limit=20&offset=0');
   assert.throws(()=>apiPath('../private'));
+});
+
+test('saved snapshot filters the requested symbol and paginates matched results', () => {
+  const apple = {id:'1', symbols:['AAPL'], analysis:{categories:['Finance'], impacts:[{symbol:'AAPL', sentiment:'positive'}]}};
+  const mixed = {id:'2', symbols:['AAPL','MSFT'], analysis:{categories:['Finance'], impacts:[
+    {symbol:'AAPL', sentiment:'negative'}, {symbol:'MSFT', sentiment:'positive'},
+  ]}};
+  const later = {...apple, id:'3'};
+  const snapshot = {captured_at:'2026-11-24T13:00:00Z', news:[apple,mixed,later]};
+  const query = {symbol:'AAPL', category:'Finance', sentiment:'positive', limit:1, offset:1};
+  const result = savedSnapshotEnvelope(snapshot, apiPath('news',query));
+  assert.deepEqual(result.data,[later]);
+  assert.equal(result.meta.total,2);
+  assert.equal(result.meta.snapshot_at,snapshot.captured_at);
 });
 
 test('freshness uses source time and market clock rather than successful page refresh',()=>{
